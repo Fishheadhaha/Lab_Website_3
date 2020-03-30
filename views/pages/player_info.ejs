@@ -1,0 +1,78 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="row">
+			<div class="col-4">
+				<div class="card">
+				  <% 
+				  var image_src = '../resources/img/helmet.jpg';
+          if (player) {
+            image_src = '../resources/img/player'+player[0].id+'.jpg';
+          }
+				  %>
+				 <img class="card-img-top" id="player_img" src= "<%- image_src %>" alt="Image of Football Player">
+				  <div class="card-body mx-auto">
+					<form class="form"action="/player_info/select_player" method="get">
+						<select class="custom-select" name="player_choice" onchange="this.form.submit()">
+							<option selected>Select Player</option>
+              <% if (info) {
+                var options = '';
+                info.forEach(function(row) {
+                  options += '<option value="'+row.id+'">'+row.name+'</option>';
+                }); %>
+                <%- options %>
+              <% } %>
+						</select>
+					</form>
+				  </div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="table-responsive">
+					<table class="table">
+            <% if (player) {
+              var game = 1;
+              if (gameC) {
+                game = gameC[0].count;
+              }
+              var year = player[0].year;
+              var major = player[0].major;
+              var passingY = player[0].passing_yards;
+              var rushingY = player[0].rushing_yards;
+              var receivingY = player[0].passing_yards;
+              var avgPassY = passingY / game;
+              var avgRushY = rushingY / game;
+              var avgRecY = receivingY / game; %>
+              <tr>
+                <th>Year</th>
+                <td><%- year %></td>
+              </tr>
+              <tr>
+                <th>Major</th>
+                <td><%- major %></td>
+              </tr>
+              <tr>
+                <th>Games Played</th>
+                <td><%- game %></td>
+              </tr>
+              <tr>
+                <td>Passing Yards: <%- passingY %></td>
+                <td>Avg. Passing Yards: <%-avgPassY %></td>
+              </tr>
+              <tr>
+                <td>Rushing Yards: <%- rushingY %></td>
+                <td>Avg. Rushing Yards: <%- avgRushY %></td>
+              </tr>
+              <tr>
+                <td>Receiving Yards: <%- receivingY %></td>
+                <td>Avg. Receiving Yards: <%- avgRecY %></td>
+              </tr>
+            <% } %>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+  
+<% include ../partials/footer %>

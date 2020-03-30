@@ -1,0 +1,66 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="jumbotron">
+		  <h1 class="display-4">Fall 2018 Stats</h1>
+		  <p class="lead">Detailed information on how the Buffs are doing in the 2018 Football Season!</p>
+		</div>
+		<table class="table table-bordered" id="stats_table">
+			<tr>
+				<th class="align-bottom" rowspan="2">Game Date</th>
+				<th class="align-bottom"rowspan="2">Opposing Team Name</th>
+				<th class="text-center" colspan="2">Score</th>
+				<th class="align-bottom" rowspan="2">Winner</th>
+			</tr>
+			<tr>
+				<th>Home Score</th>
+				<th>Opp. Score</th>
+			</tr>
+      <%
+      if (games) {
+        var rows = '';
+        games.forEach(function(item){
+          rows += '<tr>';
+          rows += '<td>' + item.game_date + '</td>'; 
+          rows += '<td>' + item.visitor_name + '</td>'; 
+          rows += '<td>' + item.home_score + '</td>';
+          rows += '<td>' + item.visitor_score + '</td>';
+          if (item.home_score > item.visitor_score) {
+            rows += '<td>CU Boulder</td>';
+          } else if (item.visitor_score > item.home_score) {
+            rows += '<td>' + item.visitor_name + '</td>';
+          } else {
+            rows += '<td>Tie</td>';
+          }
+          rows += '</tr>';
+        }); %>
+        <%- rows %>
+      <% } %>
+		</table>
+		<br>
+		<table class="table text-center">
+			<tr>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+			<tr>
+				<td>
+          <% var w = 0; %>
+          <% if (wins) { %>
+            <% w = wins[0].wins; %>
+          <% } %>
+          <%- w %>
+				</td>
+				<td>
+          <% var l = 0; %>
+          <% if (losses) { %>
+            <% l = losses[0].losses; %>
+          <% } %>
+          <%- l %>
+				</td>
+			</tr>
+		</table>
+		
+	</div>
+<% include ../partials/footer %>
